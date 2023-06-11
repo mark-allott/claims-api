@@ -22,6 +22,15 @@ namespace ClaimsApi.Data.Context
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<Claim>()
+				.HasNoKey();
+
+			modelBuilder.Entity<ClaimType>()
+				.HasNoKey();
+
+			modelBuilder.Entity<Company>()
+				.HasNoKey();
 		}
 
 		#endregion overrides
