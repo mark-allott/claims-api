@@ -142,3 +142,13 @@ csharp_space_between_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
+
+###############################
+# Markdown Options            #
+###############################
+# All markdown files
+[*.md]
+end_of_line = crlf
+trim_trailing_whitespace = true
+insert_final_newline = false
+indent_style = space
