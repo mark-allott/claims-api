@@ -57,6 +57,7 @@ namespace ClaimsApi.Data.Entities
 
 		public bool? Active { get; set; }
 
+		[Column(TypeName = "DATETIME")]
 		public DateTime? InsuranceEndDate { get; set; }
 	}
 }

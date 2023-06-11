@@ -35,11 +35,13 @@ namespace ClaimsApi.Data.Entities
 		/// <summary>
 		/// The date of the claim
 		/// </summary>
+		[Column(TypeName = "DATETIME")]
 		public DateTime? ClaimDate { get; set; }
 
 		/// <summary>
 		/// The date of the loss
 		/// </summary>
+		[Column(TypeName = "DATETIME")]
 		public DateTime? LossDate { get; }
 
 		/// <summary>
