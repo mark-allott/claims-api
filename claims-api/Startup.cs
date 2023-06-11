@@ -47,6 +47,7 @@ namespace ClaimsApi
 			services.AddOptions();
 
 			services
+				.AddApplicationData(Configuration)
 				.AddApplicationServices()
 				.AddApplicationWebApi(Configuration)
 				.AddApplicationSwagger(Configuration)
