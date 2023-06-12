@@ -1,8 +1,10 @@
 ﻿using ClaimsApi.Data.Context;
 using ClaimsApi.Data.DTO;
+using ClaimsApi.Data.Entities;
 using ClaimsApi.Data.Interfaces;
 using ClaimsApi.Data.Interfaces.Repositories;
 using ClaimsApi.Data.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Claim = ClaimsApi.Data.Entities.Claim;
 
@@ -14,14 +16,16 @@ public class ClaimService :
 	private readonly ILogger<ClaimService> _logger;
 	private readonly IClaimRepository _claimRepository;
 	private readonly IUnitOfWork<ClaimContext> _uow;
+	private readonly ICompanyRepository _companyRepository;
 
 	#region Ctor
 
-	public ClaimService(ILogger<ClaimService> logger, IClaimRepository claimRepository, IUnitOfWork<ClaimContext> uow)
+	public ClaimService(ILogger<ClaimService> logger, IClaimRepository claimRepository, IUnitOfWork<ClaimContext> uow, ICompanyRepository companyRepository)
 	{
 		_logger = logger;
 		_claimRepository = claimRepository;
 		_uow = uow;
+		_companyRepository = companyRepository;
 	}
 
 	#endregion Ctor
@@ -42,11 +46,12 @@ public class ClaimService :
 
 			//	Find a single matching entry - no need to track as we convert to DTO for the result
 			var result = _claimRepository.UntrackedQueryable
-				.Where(q => !string.IsNullOrWhiteSpace(q.Ucr) && q.Ucr.ToLower().Contains(test))
-				.Select(s => new ClaimDto(s))
-				.SingleOrDefault();
+				.Include(i => i.Company)
+				.SingleOrDefault(q => !string.IsNullOrWhiteSpace(q.Ucr) && q.Ucr.ToLower().Contains(test));
 
-			return result;
+			return result is null
+				? null
+				: new ClaimDto(result);
 		}
 		catch (InvalidOperationException ioe)
 		{
@@ -90,6 +95,66 @@ public class ClaimService :
 		return _uow.SaveChanges() > 0;
 	}
 
+#if DEBUG
+
+	public ClaimDto CreateTestClaim(string ucr)
+	{
+		var rng = new Random();
+
+		//	Convert to upper for storage
+		var test = ucr.Trim().ToUpper();
+
+		var claimCompany = GetCompany();
+
+		var newClaim = new Claim
+		{
+			Ucr = test,
+			ClaimDate = DateTime.Today.AddDays(-rng.Next(7, 360)),
+			LossDate = null,
+			AssuredName = "Insured Person",
+			IncurredLoss = null,
+			Closed = null,
+			Company = claimCompany
+		};
+		_claimRepository.Add(newClaim);
+		_uow.SaveChanges();
+
+		return new ClaimDto(newClaim);
+	}
+
+	private Company GetCompany()
+	{
+		var rng = new Random();
+
+		//	If less than 5 companies add one to the repo so wwe can use it
+		var companyCount = _companyRepository.UntrackedQueryable.Count();
+
+		if (companyCount < 5)
+		{
+			var nextId = companyCount + 1;
+			var newCompany = new Company
+			{
+				Id = nextId,
+				Name = $"Company #{nextId}",
+				Address1 = $"{nextId}, The Road",
+				Address2 = "Town",
+				Address3 = "City",
+				PostCode = "AA1A 1AA",
+				Country = "United Kingdom",
+				Active = true,
+				InsuranceEndDate = DateTime.Today.AddDays(rng.Next(7, 360)),
+			};
+			_companyRepository.Add(newCompany);
+			_uow.SaveChanges();
+		}
+		companyCount = _companyRepository.UntrackedQueryable.Count();
+		var companyId = rng.Next(1, companyCount + 1);
+
+		return _companyRepository.Queryable.Single(q => q.Id == companyId);
+	}
+
+#endif
+
 	#endregion IClaimService implementation
 
 	/// <summary>
@@ -108,6 +173,7 @@ public class ClaimService :
 
 		//	We care about EF tracking here, so use Queryable with tracking
 		return _claimRepository.Queryable
+			.Include(i => i.Company)
 			.SingleOrDefault(q => !string.IsNullOrWhiteSpace(q.Ucr) && q.Ucr.ToLower().Contains(test));
 	}
 
