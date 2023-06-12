@@ -24,7 +24,12 @@ namespace ClaimsApi.Data.Context
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder.Entity<Claim>()
-				.HasNoKey();
+				.HasKey(k => k.Identity);
+
+			modelBuilder.Entity<Claim>()
+				.HasOne(fk => fk.Company)
+				.WithMany(fk => fk.Claims)
+				.HasForeignKey(fk => fk.CompanyId);
 
 			modelBuilder.Entity<ClaimType>()
 				.HasNoKey();

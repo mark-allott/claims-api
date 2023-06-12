@@ -20,6 +20,7 @@ namespace ClaimsApi.Data.Entities
 	/// </code>
 	/// </summary>
 	[Index(nameof(Claim.Ucr), IsUnique = true)]
+	[PrimaryKey(nameof(Claim.Identity))]
 	public class Claim
 	{
 		/// <summary>
@@ -63,5 +64,22 @@ namespace ClaimsApi.Data.Entities
 		/// Indicator for whether the claim is closed
 		/// </summary>
 		public bool? Closed { get; set; }
+
+		#region DB Rework
+
+		/// <summary>
+		/// Provide a PK for EF to work with FKs
+		/// </summary>
+		[Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Identity { get; set; }
+
+		#region Navigation properties
+
+		[ForeignKey(nameof(CompanyId))]
+		public virtual Company? Company { get; set; }
+
+		#endregion Navigation properties
+
+		#endregion DB Rework
 	}
 }

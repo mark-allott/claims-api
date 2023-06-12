@@ -67,6 +67,8 @@ namespace ClaimsApi.Data.Entities
 		[Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Identity { get; set; }
 
+		public virtual ICollection<Claim> Claims { get; set; } = new HashSet<Claim>();
+
 		#endregion DB Rework
 	}
 }
