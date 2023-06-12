@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClaimsApi.Data.Migrations
 {
     [DbContext(typeof(ClaimContext))]
-    [Migration("20230612000001_UCR_Index")]
+    [Migration("20230611000001_UCR_Index")]
     partial class UCR_Index
     {
         /// <inheritdoc />
