@@ -8,7 +8,7 @@ namespace ClaimsApi.Models
 	public class CompanyResponseModel :
 		AbstractResponseModel<CompanyDto>
 	{
-		public CompanyResponseModel(CompanyDto data) :
+		public CompanyResponseModel(CompanyDto? data) :
 			base(data)
 		{
 		}

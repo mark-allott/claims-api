@@ -2,7 +2,7 @@
 {
 	public abstract class AbstractResponseModel<T> where T : class
 	{
-		protected AbstractResponseModel(T data)
+		protected AbstractResponseModel(T? data)
 		{
 			Data = data;
 		}
