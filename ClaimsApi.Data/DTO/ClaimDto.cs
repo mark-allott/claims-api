@@ -28,6 +28,7 @@ namespace ClaimsApi.Data.DTO
 			this.IncurredLoss = entity.IncurredLoss.GetValueOrDefault(0);
 			this.Closed = entity.Closed ?? false;
 			this.Company = new CompanyDto(entity.Company, false);
+			this.Identity = entity.Identity;
 		}
 
 		#endregion Overrides
@@ -48,7 +49,9 @@ namespace ClaimsApi.Data.DTO
 
 		public bool Closed { get; set; }
 
-		public CompanyDto? Company { get; set; }
+		public CompanyDto? Company { get; private set; }
+
+		public int Identity { get; private set; }
 
 		/// <summary>
 		/// Calculated field
