@@ -4,6 +4,7 @@ using ClaimsApi.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClaimsApi.Data.Migrations
 {
     [DbContext(typeof(ClaimContext))]
-    partial class ClaimContextModelSnapshot : ModelSnapshot
+    [Migration("20230611000000_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,12 +27,6 @@ namespace ClaimsApi.Data.Migrations
 
             modelBuilder.Entity("ClaimsApi.Data.Entities.Claim", b =>
                 {
-                    b.Property<int>("Identity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identity"));
-
                     b.Property<string>("AssuredName")
                         .HasMaxLength(100)
                         .HasColumnType("VARCHAR")
@@ -48,21 +45,10 @@ namespace ClaimsApi.Data.Migrations
                         .HasColumnType("DECIMAL(15,2)")
                         .HasColumnName("Incurred Loss");
 
-                    b.Property<DateTime?>("LossDate")
-                        .HasColumnType("DATETIME");
-
                     b.Property<string>("Ucr")
                         .HasMaxLength(20)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("UCR");
-
-                    b.HasKey("Identity");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("Ucr")
-                        .IsUnique()
-                        .HasFilter("[UCR] IS NOT NULL");
 
                     b.ToTable("Claims");
                 });
@@ -81,12 +67,6 @@ namespace ClaimsApi.Data.Migrations
 
             modelBuilder.Entity("ClaimsApi.Data.Entities.Company", b =>
                 {
-                    b.Property<int>("Identity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identity"));
-
                     b.Property<bool?>("Active")
                         .HasColumnType("bit");
 
@@ -120,23 +100,7 @@ namespace ClaimsApi.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
 
-                    b.HasKey("Identity");
-
                     b.ToTable("Company");
-                });
-
-            modelBuilder.Entity("ClaimsApi.Data.Entities.Claim", b =>
-                {
-                    b.HasOne("ClaimsApi.Data.Entities.Company", "Company")
-                        .WithMany("Claims")
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("ClaimsApi.Data.Entities.Company", b =>
-                {
-                    b.Navigation("Claims");
                 });
 #pragma warning restore 612, 618
         }

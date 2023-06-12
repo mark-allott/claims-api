@@ -11,10 +11,8 @@
     <Folder Include="DTO\" />
     <Folder Include="Entities\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="UOW\" />
     <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClaimsApi.Data.Migrations
 {
     [DbContext(typeof(ClaimContext))]
-    [Migration("Initial")]
-    partial class Initial
+    [Migration("20230611000002_Company_PK")]
+    partial class Company_PK
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,10 @@ namespace ClaimsApi.Data.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("UCR");
 
+                    b.HasIndex("Ucr")
+                        .IsUnique()
+                        .HasFilter("[UCR] IS NOT NULL");
+
                     b.ToTable("Claims");
                 });
 
@@ -67,6 +71,12 @@ namespace ClaimsApi.Data.Migrations
 
             modelBuilder.Entity("ClaimsApi.Data.Entities.Company", b =>
                 {
+                    b.Property<int>("Identity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identity"));
+
                     b.Property<bool?>("Active")
                         .HasColumnType("bit");
 
@@ -99,6 +109,8 @@ namespace ClaimsApi.Data.Migrations
                     b.Property<string>("PostCode")
                         .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
+
+                    b.HasKey("Identity");
 
                     b.ToTable("Company");
                 });

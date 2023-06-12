@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClaimsApi.Data.Entities
 {
@@ -18,6 +19,8 @@ namespace ClaimsApi.Data.Entities
 	/// )
 	/// </code>
 	/// </summary>
+	[Index(nameof(Claim.Ucr), IsUnique = true)]
+	[PrimaryKey(nameof(Claim.Identity))]
 	public class Claim
 	{
 		/// <summary>
@@ -42,7 +45,7 @@ namespace ClaimsApi.Data.Entities
 		/// The date of the loss
 		/// </summary>
 		[Column(TypeName = "DATETIME")]
-		public DateTime? LossDate { get; }
+		public DateTime? LossDate { get; set; }
 
 		/// <summary>
 		/// The name of the assured
@@ -61,5 +64,22 @@ namespace ClaimsApi.Data.Entities
 		/// Indicator for whether the claim is closed
 		/// </summary>
 		public bool? Closed { get; set; }
+
+		#region DB Rework
+
+		/// <summary>
+		/// Provide a PK for EF to work with FKs
+		/// </summary>
+		[Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Identity { get; set; }
+
+		#region Navigation properties
+
+		[ForeignKey(nameof(CompanyId))]
+		public virtual Company? Company { get; set; }
+
+		#endregion Navigation properties
+
+		#endregion DB Rework
 	}
 }
