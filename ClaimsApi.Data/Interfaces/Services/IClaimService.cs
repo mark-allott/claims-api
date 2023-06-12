@@ -20,5 +20,18 @@ namespace ClaimsApi.Data.Interfaces.Services
 		/// <param name="claim">Details of the claim to be updated</param>
 		/// <returns>A flag indicating success or failure</returns>
 		bool UpdateClaim(ClaimDto claim);
+
+		/// <summary>
+		/// Updates a claim with the specified fields
+		/// </summary>
+		/// <param name="ucr"></param>
+		/// <param name="claimDate"></param>
+		/// <param name="lossDate"></param>
+		/// <param name="assuredName"></param>
+		/// <param name="incurredLoss"></param>
+		/// <param name="closed"></param>
+		/// <returns>A flag indicating success or failure</returns>
+		bool UpdateClaim(string ucr, DateTime? claimDate, DateTime? lossDate, string? assuredName, decimal? incurredLoss,
+			bool closed);
 	}
 }
