@@ -45,7 +45,7 @@ namespace ClaimsApi.Data.Entities
 		/// The date of the loss
 		/// </summary>
 		[Column(TypeName = "DATETIME")]
-		public DateTime? LossDate { get; }
+		public DateTime? LossDate { get; set; }
 
 		/// <summary>
 		/// The name of the assured
