@@ -2,10 +2,10 @@
 
 namespace ClaimsApi.Controllers
 {
-	public class CustomerController :
+	public class CompanyController :
 		AbstractApiController
 	{
-		public CustomerController(ILoggerFactory loggerFactory) :
+		public CompanyController(ILoggerFactory loggerFactory) :
 			base(loggerFactory)
 		{
 		}
