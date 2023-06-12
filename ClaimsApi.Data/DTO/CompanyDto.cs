@@ -13,10 +13,13 @@ namespace ClaimsApi.Data.DTO
 		{
 		}
 
-		public CompanyDto(Company? entity, bool populateClaims = false) :
-			base(entity ?? new Company())
+		public CompanyDto(Company entity, bool populateClaims = false) :
+			base(entity)
 		{
 			_populateClaims = populateClaims;
+
+			// ReSharper disable once VirtualMemberCallInConstructor
+			SetValuesFromEntity(entity);
 		}
 
 		#endregion Ctor
@@ -38,7 +41,7 @@ namespace ClaimsApi.Data.DTO
 
 			if (_populateClaims)
 			{
-				var claims = entity.Claims.Select(s => new ClaimDto(s));
+				var claims = entity.Claims.Select(s => new ClaimDto(s, false));
 				Claims = new List<ClaimDto>(claims);
 			}
 		}

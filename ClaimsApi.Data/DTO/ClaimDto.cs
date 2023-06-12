@@ -5,11 +5,17 @@ namespace ClaimsApi.Data.DTO
 	public class ClaimDto :
 		AbstractDto<Claim>
 	{
+		private readonly bool _populateCompany;
+
 		#region Ctor
 
-		public ClaimDto(Claim claim) :
+		public ClaimDto(Claim claim, bool populateCompany = true) :
 			base(claim)
 		{
+			_populateCompany = populateCompany;
+
+			// ReSharper disable once VirtualMemberCallInConstructor
+			SetValuesFromEntity(claim);
 		}
 
 		#endregion Ctor
@@ -27,7 +33,9 @@ namespace ClaimsApi.Data.DTO
 			this.AssuredName = entity.AssuredName;
 			this.IncurredLoss = entity.IncurredLoss.GetValueOrDefault(0);
 			this.Closed = entity.Closed ?? false;
-			this.Company = new CompanyDto(entity.Company, false);
+			this.Company = _populateCompany && entity.Company is not null
+				? new CompanyDto(entity.Company, false)
+				: null;
 			this.Identity = entity.Identity;
 		}
 
