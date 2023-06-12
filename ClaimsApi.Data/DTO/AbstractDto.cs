@@ -10,10 +10,14 @@
 
 		protected AbstractDto(TEntity entity)
 		{
+			// ReSharper disable once VirtualMemberCallInConstructor
+			SetValuesFromEntity(entity);
 		}
 
 		#endregion Ctor
 
-		protected abstract void SetValuesFromEntity(TEntity entity);
+		protected virtual void SetValuesFromEntity(TEntity entity)
+		{
+		}
 	}
 }
