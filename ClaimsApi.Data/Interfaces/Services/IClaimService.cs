@@ -33,5 +33,16 @@ namespace ClaimsApi.Data.Interfaces.Services
 		/// <returns>A flag indicating success or failure</returns>
 		bool UpdateClaim(string ucr, DateTime? claimDate, DateTime? lossDate, string? assuredName, decimal? incurredLoss,
 			bool closed);
+
+#if DEBUG
+
+		/// <summary>
+		/// For DEBUG only - we can create a dummy entry
+		/// </summary>
+		/// <param name="ucr">The UCR to us for the dummy entry</param>
+		/// <returns>A <see cref="ClaimDto"/> model, but backed with an entity in the DB</returns>
+		ClaimDto CreateTestClaim(string ucr);
+
+#endif
 	}
 }
