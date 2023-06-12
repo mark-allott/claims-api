@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClaimsApi.Data.Entities
 {
@@ -18,6 +19,7 @@ namespace ClaimsApi.Data.Entities
 	/// )
 	/// </code>
 	/// </summary>
+	[Index(nameof(Claim.Ucr), IsUnique = true)]
 	public class Claim
 	{
 		/// <summary>
