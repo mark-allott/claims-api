@@ -28,9 +28,6 @@ namespace ClaimsApi.Data.Context
 
 			modelBuilder.Entity<ClaimType>()
 				.HasNoKey();
-
-			modelBuilder.Entity<Company>()
-				.HasNoKey();
 		}
 
 		#endregion overrides

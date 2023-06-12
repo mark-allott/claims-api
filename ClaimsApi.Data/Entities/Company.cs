@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClaimsApi.Data.Entities
 {
@@ -21,6 +22,7 @@ namespace ClaimsApi.Data.Entities
 	/// </code>
 	/// </summary>
 	[Table(nameof(Company))]
+	[PrimaryKey(nameof(Company.Identity))]
 	public class Company
 	{
 		/// <summary>
@@ -59,5 +61,12 @@ namespace ClaimsApi.Data.Entities
 
 		[Column(TypeName = "DATETIME")]
 		public DateTime? InsuranceEndDate { get; set; }
+
+		#region DB Rework
+
+		[Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Identity { get; set; }
+
+		#endregion DB Rework
 	}
 }

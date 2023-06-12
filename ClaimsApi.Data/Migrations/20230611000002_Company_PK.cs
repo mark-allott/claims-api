@@ -17,11 +17,20 @@ namespace ClaimsApi.Data.Migrations
                 nullable: false,
                 defaultValue: 0)
                 .Annotation("SqlServer:Identity", "1, 1");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Company",
+                table: "Company",
+                column: "Identity");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Company",
+                table: "Company");
+
             migrationBuilder.DropColumn(
                 name: "Identity",
                 table: "Company");

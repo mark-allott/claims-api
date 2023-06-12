@@ -71,6 +71,12 @@ namespace ClaimsApi.Data.Migrations
 
             modelBuilder.Entity("ClaimsApi.Data.Entities.Company", b =>
                 {
+                    b.Property<int>("Identity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identity"));
+
                     b.Property<bool?>("Active")
                         .HasColumnType("bit");
 
@@ -93,12 +99,6 @@ namespace ClaimsApi.Data.Migrations
                     b.Property<int?>("Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Identity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Identity"));
-
                     b.Property<DateTime?>("InsuranceEndDate")
                         .HasColumnType("DATETIME");
 
@@ -109,6 +109,8 @@ namespace ClaimsApi.Data.Migrations
                     b.Property<string>("PostCode")
                         .HasMaxLength(20)
                         .HasColumnType("VARCHAR");
+
+                    b.HasKey("Identity");
 
                     b.ToTable("Company");
                 });
