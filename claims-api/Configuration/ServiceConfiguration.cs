@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using ClaimsApi.Data.Context;
 
 namespace ClaimsApi.Configuration
 {
@@ -9,7 +10,11 @@ namespace ClaimsApi.Configuration
 			//	TODO - add manual service registrations
 
 			//	TODO - add any additional assemblies to be searched for auto-registration services
-			var searchAssemblies = new Assembly[] { typeof(ServiceConfiguration).Assembly };
+			var searchAssemblies = new Assembly[]
+			{
+				typeof(ServiceConfiguration).Assembly,
+				typeof(ClaimContext).Assembly
+			};
 
 			//	TODO - call auto-registration method
 
