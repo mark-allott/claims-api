@@ -4,7 +4,7 @@ using ClaimsApi.Data.Entities;
 
 namespace ClaimsApi.Data.Interfaces.Services
 {
-	internal interface IClaimService :
+	public interface IClaimService :
 		IAutoRegisterService
 	{
 		/// <summary>
